@@ -1,0 +1,27 @@
+# the name of the file is used in *.part files, but the
+# name defined here is used to name the *.svg files
+*NAME DIL
+# let's define a PIN:
+
+*PIN THT 1mm, 1.5mm, 3mm
+# THT stands for through-hole technology, but to drill a hole,
+# we need to know the diameter. let's define it first. next is
+# the width and last the height of the pad around the pin.
+
+#       ____ ____
+#      |    U    |
+#   ###|1       8|### --|
+#      |         |      c
+#   ###|2       7|### --|
+#      |         |
+#   ###|3       6|###
+#      |         |
+#   ###|4       5|###
+#      |_________|
+#   
+#    |------e------|
+#   
+
+
+*C 0.3 in
+*E 0.1in

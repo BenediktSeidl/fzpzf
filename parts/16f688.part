@@ -1,0 +1,55 @@
+*NAME 16F688
+*TAGS PIC,MICROCHIP,16fF688
+
+*PINS
+# define pins here.
+# $<pin number> <name> [description]
+$1 VDD
+$2 RA5/OSC1
+$3 RA4/OSC2
+$4 RA3/MCLR
+$5 RC5/RX
+$6 RC4/TX
+$7 RC3
+$8 RC2
+$9 RC1
+$10 RC0
+$11 RA2
+$12 RA1/ICSPCLK
+$13 RA0/ICSPDAT
+$14 VSS
+
+*SCHEMATIC
+# what should the schematic symbol look like?
+# T = top, R = right, L = left, B = bottom
+# just a , without a pin number will create emptiness
+T ,$1,,$14,
+L ,$10,$9,$8,$7,$6,$5
+R ,$13,$12,$11,$4,$3,$2
+
+# what packages do you want?
+*PACKAGE DIL
+
+*PACKAGE microchip/SOIC
+
+*PACKAGE microchip/QFN-4mm-16
+# now we have a little problem: the chip has only
+# 14 pins, but the package has 16 pins + the numbering
+# has changed. so let's redifne the pins:
+1 -> $2
+2 -> $3
+3 -> $4
+4 -> $5
+5 -> $6
+6 -> $7
+7 -> $8
+8 -> $9
+9 -> $10
+10 -> $11
+11 -> $12
+12 -> $13
+13 -> $14
+14 NC
+15 NC
+16 -> $1
+

@@ -1,0 +1,40 @@
+# first we need a name
+*NAME MAX323
+# and some tags
+*TAGS MAXIM,5V,RS-232
+
+*PINS
+# now the pins. first character must be a dollar-sign.
+# the pin-number followed by the pin-name next,
+# and optional a pin name. all three are seperated by whitespace
+$1 C1+
+$2 V+
+$3 C1-
+$4 C2+
+$5 C2-
+$6 V-
+$7 T2OUT    RS-232 output
+$8 R2IN     RS-232 input
+$9 R2OUT    ttl/cmos output
+$10 T2IN    ttl/cmos input
+$11 T1IN    ttl/cmos input
+$12 R1OUT   ttl/cmos output
+$13 R1IN    RS-232 input
+$14 T1OUT   RS-232 output
+$15 GND     0V
+$16 VCC     5V
+
+# what packages doe this chip live in?
+*PACKAGE DIL
+
+*PACKAGE maxim/SOW
+
+# what should the schematic look like?
+# we add some space to the left and right side
+# (by adding some ',' without a pin definition)
+# so the names printed on the top side will not
+# collide with those at the right and left side
+*SCHEMATIC
+T $5,$4,$3,$1,$2,$6,$16,$15
+L ,,$11,$10,$12,$9
+R ,,$14,$7,$13,$8
