@@ -1,15 +1,17 @@
 FZPZF
 =========
 
-FZPZF is a little python script that creates chip-definitions for 
+FZPZF is a little python script that creates chip-definitions for
 fritzing. it is a quick hack, so you don't have to use illustrator
 or inkscape if you want to add a microcontroller to your fritzing
 library.
 licensed under mit license
 
 to create your part you can follow these three steps
+*to see what the script is able to do, just execute fzpzf.py.
+some .fzpz files will be generated in the out folder.*
 
-## 1. create a .part file 
+## 1. create a .part file
 just look at the files `parts/16f688.part` or `parts/max232`.
 they should illustrate how to create your own file.
 instead, you can also follow this mini-tutorial. just open your
