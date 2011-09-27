@@ -73,6 +73,7 @@ def add_end_g():
     append("</g>")
 
 def add_use(link, **arg):
+    print "WARNING! not supported by fritzing"
     append(xml("use", xlink__href=link, **arg))
 
 def add_path(d, **arg):

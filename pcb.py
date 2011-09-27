@@ -136,15 +136,17 @@ def create(p, file_name):
         svg.add_start_g(id="silkscreen")
        
         svg.add_circle(-chip_width/2, -chip_height/2, pin_height/2, fill="#fff")
-        svg.add_path(d=(
+
+        for angle in (0,90,180,270):
+            svg.add_path(d=(
                 svg.M(-chip_width/2 + offset_h - 1, -chip_height/2),
                 svg.h(-offset_h+1),
                 svg.v(+offset_v-1),
-                ), fill="none", stroke="ffffff", id="SilkscreenTopLeft", stroke_width="0.5")
-
-        svg.add_use(link="#SilkscreenTopLeft", transform="rotate(90,0,0)")
-        svg.add_use(link="#SilkscreenTopLeft", transform="rotate(180,0,0)")
-        svg.add_use(link="#SilkscreenTopLeft", transform="rotate(270,0,0)")
+                ),      fill="none",
+                        stroke="ffffff",
+                        id="SilkscreenTopLeft",
+                        stroke_width="0.5",
+                        transform="rotate({angle})".format(angle=angle))
 
         svg.add_end_g()
 

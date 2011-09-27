@@ -22,7 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 from svg import M,H,V,z,a,A,L # path commands
-from svg import add_path, add_line, add_use, add_start_g, add_end_g
+from svg import add_path, add_line, add_start_g, add_end_g
 from svg import add_circle, add_text
 from svg import start, end, write
 from svg import append
@@ -31,6 +31,21 @@ from svg import xml
 def add_bb_connector(num, y):
     append(xml("rect", x=-1.08,y=-1.08, width=2.16,height=2.16, id="connector{0}terminal".format(num), fill="none"))
     append(xml("rect", x=-1.08,y=y, width=2.16,height=3.24, id="connector{0}pin".format(num), fill="none"))
+
+def add_Pin(angle=0):
+    append("""
+     <polygon transform="rotate({angle})" id="TopPin" fill="#8C8C8C" points="
+      1.08,-1.08
+     -1.08,-1.08
+
+     -1.08,0.54
+     -2.16,1.08
+     -2.16,2.16
+
+      2.16,2.16
+      2.16,1.08
+      1.08,0.54" />""".format(angle=angle))
+
 
 def create(width, height, name, file_name=None):
     if file_name == None:
@@ -74,22 +89,6 @@ def create(width, height, name, file_name=None):
         svg_height=(height-1)*7.2 + 2*1.08
         start(svg_width,svg_height, svg_width*127./360, svg_height*127./360, "mm")
         add_start_g(id='breadboard', transform='translate({x},{y})'.format(x=-outer_l, y=-(7.2-1.08)))
-
-    append("""<defs>
-     <polygon id="TopPin" fill="#8C8C8C" points="
-      1.08,-1.08
-     -1.08,-1.08
-
-     -1.08,0.54
-     -2.16,1.08
-     -2.16,2.16
-
-      2.16,2.16
-      2.16,1.08
-      1.08,0.54" />
-      <use id="BottomPin" transform="rotate(180)" xlink:href="#TopPin"/>
-    </defs>
-    """)
 
     # dark background + left shadow
     add_path(d=(
@@ -158,12 +157,12 @@ def create(width, height, name, file_name=None):
     # pins
     for i in range(width):
         add_start_g(transform="translate({x},{y})".format(x=7.2*(1+i), y=7.2))
-        add_use(link="#TopPin", x=0, y=0)
+        add_Pin(angle=0)
         add_bb_connector(width*2-i, y=-1.08)
         add_end_g()
 
         add_start_g(transform="translate({x},{y})".format(x=7.2*(1+i), y=(height)*7.2))
-        add_use(link="#BottomPin")
+        add_Pin(angle=180)
         add_bb_connector(i+1, y=-2*1.08)
         add_end_g()
 
