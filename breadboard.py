@@ -28,9 +28,9 @@ from svg import start, end, write
 from svg import append
 from svg import xml
 
-def add_bb_connector(num):
-    append(xml("rect", x=-1.08,y=-1.08,width=2.16,height=2.16, id="connector{0}terminal".format(num), fill="none"))
-    append(xml("rect", x=-1.08,y=-1.08,width=2.16,height=3.24, id="connector{0}pin".format(num), fill="none"))
+def add_bb_connector(num, y):
+    append(xml("rect", x=-1.08,y=-1.08, width=2.16,height=2.16, id="connector{0}terminal".format(num), fill="none"))
+    append(xml("rect", x=-1.08,y=y, width=2.16,height=3.24, id="connector{0}pin".format(num), fill="none"))
 
 def create(width, height, name, file_name=None):
     if file_name == None:
@@ -62,7 +62,7 @@ def create(width, height, name, file_name=None):
 
     if debug:
         scale = 16
-        start(width=1000,height=1000)
+        start(1000, 1000, 1000, 1000, "px")
         add_start_g(transform='scale({s})'.format(s=scale))
         # grid
         for i in range(int(500/7.2)):
@@ -70,26 +70,26 @@ def create(width, height, name, file_name=None):
             add_line(i*7.2,0,0,500, color="#4affff", width=0.5)
     else:
         scale = 1
-        svg_width=scale*(outer_r-outer_l)
-        svg_height=scale*((height-1)*7.2 + 2*1.08)
+        svg_width=outer_r-outer_l
+        svg_height=(height-1)*7.2 + 2*1.08
         start(svg_width,svg_height, svg_width*127./360, svg_height*127./360, "mm")
-        add_start_g(id='breadboard', transform='scale({s}) translate({x},{y})'.format(x=-outer_l, y=-(7.2-1.08), s=scale))
+        add_start_g(id='breadboard', transform='translate({x},{y})'.format(x=-outer_l, y=-(7.2-1.08)))
 
-        append("""<defs>
-         <polygon id="TopPin" fill="#8C8C8C" points="
-          1.08,-1.08
-         -1.08,-1.08
+    append("""<defs>
+     <polygon id="TopPin" fill="#8C8C8C" points="
+      1.08,-1.08
+     -1.08,-1.08
 
-         -1.08,0.54
-         -2.16,1.08
-         -2.16,2.16
+     -1.08,0.54
+     -2.16,1.08
+     -2.16,2.16
 
-          2.16,2.16
-          2.16,1.08
-          1.08,0.54" />
-          <use id="BottomPin" transform="rotate(180)" xlink:href="#TopPin"/>
-        </defs>
-        """)
+      2.16,2.16
+      2.16,1.08
+      1.08,0.54" />
+      <use id="BottomPin" transform="rotate(180)" xlink:href="#TopPin"/>
+    </defs>
+    """)
 
     # dark background + left shadow
     add_path(d=(
@@ -159,12 +159,12 @@ def create(width, height, name, file_name=None):
     for i in range(width):
         add_start_g(transform="translate({x},{y})".format(x=7.2*(1+i), y=7.2))
         add_use(link="#TopPin", x=0, y=0)
-        add_bb_connector(width*2-i)
+        add_bb_connector(width*2-i, y=-1.08)
         add_end_g()
 
         add_start_g(transform="translate({x},{y})".format(x=7.2*(1+i), y=(height)*7.2))
         add_use(link="#BottomPin")
-        add_bb_connector(i+1)
+        add_bb_connector(i+1, y=-2*1.08)
         add_end_g()
 
     # circle for pin #1
