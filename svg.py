@@ -62,7 +62,7 @@ def add_text(text, **arg):
     append(xml("text", content=text, **arg))
 
 def add_circle(x,y,r, **arg):
-    append(xml("ellipse", cx=x, cy=y, rx=r, ry=r, **arg))
+    append(xml("circle", cx=x, cy=y, r=r, **arg))
 
 def add_start_g(**arg):
     "start a group"
