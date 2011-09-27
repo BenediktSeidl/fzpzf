@@ -39,6 +39,8 @@ for file_name in glob("parts/*.part"):
 
     breadboard.create(len(schem.pins.getPins())/2,4,meta.name, file_name="temp/"+breadboard_file_name)
     schematic.create(schem, file_name="temp/" + schematic_file_name)
+    #icon:
+    breadboard.create(4,4,meta.name, file_name="temp/"+icon_file_name)
 
     for p in packages:
         name = "{0}_{1}".format(meta.name, p.definition["name"])
@@ -56,7 +58,7 @@ for file_name in glob("parts/*.part"):
         zip_file = zipfile.ZipFile("out/{0}.fzpz".format(name), "w")
         zip_file.write("temp/{0}".format(pcb_file_name), "svg.pcb.{0}".format(pcb_file_name))
         zip_file.write("temp/{0}".format(breadboard_file_name), "svg.breadboard.{0}".format(breadboard_file_name))
-        zip_file.write("temp/{0}".format(breadboard_file_name), "svg.icon.{0}".format(icon_file_name))
+        zip_file.write("temp/{0}".format(icon_file_name), "svg.icon.{0}".format(icon_file_name))
         zip_file.write("temp/{0}".format(schematic_file_name), "svg.schematic.{0}".format(schematic_file_name))
         zip_file.write("temp/{0}".format(module_file_name), "part.{0}".format(module_file_name))
         zip_file.close()
