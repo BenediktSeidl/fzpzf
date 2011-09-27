@@ -156,16 +156,13 @@ def create(p, file_name):
 
         def add_pin_shortcut(i,x,y,r=0):
             pin_nr = i
-            if r != 0:
-                rotate = " rotate({0})".format(r)
-            else:
-                rotate = ""
-            svg.add_start_g(transform="translate({x},{y}){r}".format(
-                                r = rotate,
+            svg.add_start_g(transform="translate({x},{y})".format(
                                 x=x,
                                 y=y))
+            if r != 0: svg.add_start_g(transform="rotate({0})".format(r))
             add_pin(pin_nr)
             svg.add_end_g()
+            if r != 0: svg.add_end_g()
 
         for i in range(count/4):
             #left
