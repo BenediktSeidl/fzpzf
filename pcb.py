@@ -99,7 +99,7 @@ def create(p, file_name):
                 svg.h(chip_width-offset*2),
                 svg.v(-pins_gap*count/2),
                 svg.z()
-                ), stroke="ffffff", fill="none")
+                ), stroke="#ffffff", fill="none")
         svg.add_circle(-chip_width/2 + offset + 3,-0.25*pins_gap +1 ,1.5, fill="#ffffff")
         svg.add_end_g()
 
@@ -142,7 +142,7 @@ def create(p, file_name):
                 svg.h(-offset_h+1),
                 svg.v(+offset_v-1),
                 ),      fill="none",
-                        stroke="ffffff",
+                        stroke="#ffffff",
                         stroke_width="0.5",
                         transform="rotate({angle})".format(angle=angle))
 
