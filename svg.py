@@ -63,14 +63,10 @@ def new():
 
 ############ helper functions ###############
 
-def deCamelCase(string):
-    return string.lower().replace("__", ":").replace("_", "-")
-
-def _xml(arg):
-    return " ".join(('{0}="{1}"'.format(deCamelCase(key), value) for key,value in arg.iteritems()))
-
 def xml(name, content=None, **arg):
     global xml_document
+    #if name != "g" and "transform" in arg: #TODO: FIX ME!
+    #    print "urg!", name, arg["transform"]
     element = xml_document.createElement(name)
     for name, value in arg.iteritems():
         element.setAttribute(
@@ -97,7 +93,6 @@ def add_circle(x,y,r, **arg):
 
 def add_start_g(**arg):
     "start a group"
-    #append("<g {0}>".format(_xml(arg)))
     global insertPoint
     append(xml("g", **arg))
     insertPoint = insertPoint.lastChild
@@ -106,7 +101,6 @@ def add_end_g():
     "end a group"
     global insertPoint
     insertPoint = insertPoint.parentNode
-    #append("</g>")
 
 def add_use(link, **arg):
     print "WARNING! not supported by fritzing"

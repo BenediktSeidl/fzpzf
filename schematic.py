@@ -112,12 +112,12 @@ def create(s, file_name):
         y = svg_height/2
         r = 270 if width < height else 0
     if r != 0:
-        rotate = "rotate({r},{x},{y})".format(r=r,x=x,y=y)
+        rotate = dict(rotate="rotate({r},{x},{y})".format(r=r,x=x,y=y))
     else:
-        rotate = ""
+        rotate = dict()
     svg.add_text(s.meta.name,
         font_size=18, font_family="DroidSans", text_anchor="middle",
-        transform="{r} translate({x},{y})".format(r=rotate, x=x,y=y)) # name!
+        x=x, y=y, **rotate) # name!
     
     svg.add_end_g()
     svg.end()
