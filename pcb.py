@@ -37,6 +37,7 @@ def create(p, file_name):
         chip_height = None
 
     if pin.strip() == "THT":
+        is_smd = False
         dimension = size.split(",")
 
         d, pin_width, pin_height = map(to_pixel, dimension)
@@ -71,6 +72,7 @@ def create(p, file_name):
 
 
     else:
+        is_smd = True
         pin_width,pin_height = map(to_pixel, size.split(","))
         def add_pin(nr):
             if nr != None:
@@ -102,8 +104,8 @@ def create(p, file_name):
         svg.add_circle(-chip_width/2 + offset + 3,-0.25*pins_gap +1 ,1.5, fill="#ffffff")
         svg.add_end_g()
 
-        svg.add_start_g(id="copper0")
         svg.add_start_g(id="copper1")
+        if not is_smd: svg.add_start_g(id="copper0")
         for i in range(count/2):
             #left
             svg.add_start_g(transform="translate({x},{y})".format(x=-chip_width/2,y=i*pins_gap))
@@ -115,7 +117,7 @@ def create(p, file_name):
             add_pin(count-i)
             svg.add_end_g()
 
-        svg.add_end_g()
+        if not is_smd: svg.add_end_g()
         svg.add_end_g()
         svg.add_end_g()
     else:
@@ -144,15 +146,14 @@ def create(p, file_name):
                 svg.v(+offset_v-1),
                 ),      fill="none",
                         stroke="ffffff",
-                        id="SilkscreenTopLeft",
                         stroke_width="0.5",
                         transform="rotate({angle})".format(angle=angle))
 
         svg.add_end_g()
 
 
-        svg.add_start_g(id="copper0")
         svg.add_start_g(id="copper1")
+        if not is_smd: svg.add_start_g(id="copper0")
 
         def add_pin_shortcut(i,x,y,r=0):
             pin_nr = i
@@ -191,7 +192,7 @@ def create(p, file_name):
                     y=-chip_height/2,
                     r=90)
 
-        svg.add_end_g()
+        if not is_smd: svg.add_end_g()
         svg.add_end_g()
         svg.add_end_g()
 
