@@ -1,38 +1,65 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-header = """<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
-     version="1.1" baseProfile="full"
-     viewBox="0 0 {w} {h}"
-     width="{w_unit}{unit}" height="{h_unit}{unit}">
-"""
 
-footer = """</svg>"""
+from xml.dom import minidom
 
-text = ""
+xml_document = None
+svg = None
+insertPoint = None
 
-def append(newText):
-    global text
-    text += newText + "\n"
+def append(newElement):
+    #global text
+    #text += newText + "\n"
+    global insertPoint
+    insertPoint.appendChild(newElement)
 
 def start(width, height, w_unit, h_unit, unit):
     new()
-    append(header.format(w=width,h=height, h_unit=h_unit, w_unit=w_unit, unit=unit))
+    global svg
+    svg.setAttribute("viewBox", "0 0 {w} {h}".format(w=width, h=height))
+    svg.setAttribute("width", "{w_unit}{unit}".format(unit=unit, w_unit=w_unit))
+    svg.setAttribute("height", "{h_unit}{unit}".format(unit=unit, h_unit=h_unit))
 
-def end():
-    append(footer)
+def end(): # TODO: remove
+    pass 
 
 def write(file_name="test.svg"):
     f = file(file_name, "w")
-    f.write(text)
+    #f.write(text)
+    xml_document.writexml(f,
+            indent="  ",
+            addindent="  ",
+            newl="\n",
+            encoding="UTF-8")
     f.close()
 
 def new():
-    global text
-    text = ""
+    global xml_document, svg, insertPoint
+
+    domi = minidom.getDOMImplementation()
+    documentType = domi.createDocumentType(
+            "svg",
+            "-//W3C//DTD SVG 1.1//EN",
+            "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd")
+    xml_document = domi.createDocument(
+            "eins",
+            "svg",
+            documentType)
+    
+    svg = xml_document.documentElement
+    attributes = [("xmlns", "http://www.w3.org/2000/svg"),
+            ("xmlns:xlink", "http://www.w3.org/1999/xlink"),
+            ("xmlns:ev", "http://www.w3.org/2001/xml-events"),
+            ("version", "1.1"),
+            ("baseProfile","full"),
+            ]
+
+    for name, value in attributes:
+        svg.setAttribute(name, value)
+
+    insertPoint = svg
+
 
 ############ helper functions ###############
 
@@ -43,12 +70,16 @@ def _xml(arg):
     return " ".join(('{0}="{1}"'.format(deCamelCase(key), value) for key,value in arg.iteritems()))
 
 def xml(name, content=None, **arg):
-    attributes = _xml(arg)
-    if content == None:
-        return "<{0} {1} />".format(name, attributes)
-    else:
-        return "<{0} {1}>{2}</{0}>".format(name, attributes, content)
-
+    global xml_document
+    element = xml_document.createElement(name)
+    for name, value in arg.iteritems():
+        element.setAttribute(
+            name.lower().replace("__", ":").replace("_", "-"),
+            str(value))
+    if content != None:
+        element.appendChild(xml_document.createTextNode(content))
+    return element
+        
 
 ####### svg wrapper ##########
 
@@ -59,18 +90,23 @@ def add_line(x,y,ox,oy, **arg):
     append(xml("line", x1=x, y1=y, x2=x+ox, y2=y+oy, **arg))
 
 def add_text(text, **arg):
-    append(xml("text", content=text, **arg))
+    append(xml("text", content=str(text), **arg))
 
 def add_circle(x,y,r, **arg):
     append(xml("circle", cx=x, cy=y, r=r, **arg))
 
 def add_start_g(**arg):
     "start a group"
-    append("<g {0}>".format(_xml(arg)))
+    #append("<g {0}>".format(_xml(arg)))
+    global insertPoint
+    append(xml("g", **arg))
+    insertPoint = insertPoint.lastChild
 
 def add_end_g():
     "end a group"
-    append("</g>")
+    global insertPoint
+    insertPoint = insertPoint.parentNode
+    #append("</g>")
 
 def add_use(link, **arg):
     print "WARNING! not supported by fritzing"
@@ -79,6 +115,10 @@ def add_use(link, **arg):
 def add_path(d, **arg):
     "add a path"
     append(xml("path", d=" ".join(d), **arg))
+
+def add_polygon(**arg):
+    append(xml("polygon", **arg))
+
 
 def M(x,y):
     "move to"
@@ -118,3 +158,12 @@ def z():
     "close path"
     return "z"
 
+
+######### test #########
+if __name__ == "__main__":
+    start(10,10,10,10,"mm")
+    add_circle(5,5,10)
+    add_start_g()
+    add_circle(1,1,1)
+    add_end_g()
+    write()

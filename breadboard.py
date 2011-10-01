@@ -24,27 +24,19 @@
 from svg import M,H,V,z,a,A,L # path commands
 from svg import add_path, add_line, add_start_g, add_end_g
 from svg import add_circle, add_text
+from svg import add_rect, add_polygon
 from svg import start, end, write
-from svg import append
-from svg import xml
+#from svg import append
 
 def add_bb_connector(num, y):
-    append(xml("rect", x=-1.08,y=-1.08, width=2.16,height=2.16, id="connector{0}terminal".format(num), fill="none"))
-    append(xml("rect", x=-1.08,y=y, width=2.16,height=3.24, id="connector{0}pin".format(num), fill="none"))
+    add_rect(x=-1.08,y=-1.08, w=2.16,h=2.16, id="connector{0}terminal".format(num), fill="none")
+    add_rect(x=-1.08,y=y, w=2.16,h=3.24, id="connector{0}pin".format(num), fill="none")
 
 def add_Pin(angle=0):
-    append("""
-     <polygon transform="rotate({angle})" id="TopPin" fill="#8C8C8C" points="
-      1.08,-1.08
-     -1.08,-1.08
-
-     -1.08,0.54
-     -2.16,1.08
-     -2.16,2.16
-
-      2.16,2.16
-      2.16,1.08
-      1.08,0.54" />""".format(angle=angle))
+    add_polygon(
+            transform="rotate({angle})".format(angle=angle),
+            fill="#8C8C8C",
+            points="1.08,-1.08 -1.08,-1.08 -1.08,0.54 -2.16,1.08 -2.16,2.16 2.16,2.16 2.16,1.08 1.08,0.54")
 
 
 def create(width, height, name, file_name=None):

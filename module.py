@@ -103,7 +103,7 @@ def new():
 def create(meta, package, schematic, breadboard_file_name, schematic_file_name, pcb_file_name, icon_file_name, file_name):
     unique_id = "{0}-{1}".format(int(time.time()*100), "".join([random.choice("1234567890") for i in range(20)]))
     is_smd = not package.definition["pin"].startswith("THT")
-    num_copper_layers = [1] if is_smd else [0,1]
+    copper_layer_nums = [1] if is_smd else [0,1]
     
     new()
 
@@ -118,7 +118,7 @@ def create(meta, package, schematic, breadboard_file_name, schematic_file_name, 
         family=meta.name,
         package=package.definition["name"]))
 
-    copper_layers= "\n".join(copper_layer.format(i) for i in num_copper_layers)
+    copper_layers= "\n".join(copper_layer.format(i) for i in copper_layer_nums)
 
     append(view.format(
         icon_file=icon_file_name,
@@ -130,15 +130,13 @@ def create(meta, package, schematic, breadboard_file_name, schematic_file_name, 
 
     append(connectors_start)
     for i,(name,description) in enumerate(schematic.pins.getPins()):
-        copper_ps = "\n".join(copper_p.format(nr=j, id=i+1) for j in num_copper_layers)
+        copper_ps = "\n".join(copper_p.format(nr=j, id=i+1) for j in copper_layer_nums)
         append(connector.format(
             id = i+1,
             type = "pad" if is_smd else "male",
             name=name,
             description=description,
             copper_ps = copper_ps))
-
-
 
 
     append(connectors_end)

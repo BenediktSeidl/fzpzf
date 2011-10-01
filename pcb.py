@@ -26,7 +26,6 @@ from helper import to_pixel
 
 def create(p, file_name):
 
-
     pin, size = p.definition["pin"].split(" ", 1)
     chip_width = to_pixel(p.definition["c"]) # TODO: error check
     pins_gap = to_pixel(p.definition["e"]) # TODO: error check
@@ -91,9 +90,9 @@ def create(p, file_name):
 
         svg.start(svg_width, svg_height, svg_width*127/360, svg_height*127/360, "mm")
         #svg.add_rect(-500,-500,1000,1000) # debug
-        svg.add_start_g(transform="translate({x},{y})".format(x=svg_width/2, y=0.5 + pins_gap * 0.5))
+        transform_translate="translate({x},{y})".format(x=svg_width/2, y=0.5 + pins_gap * 0.5)
         offset = pin_height/2 + 1.5
-        svg.add_start_g(id="silkscreen")
+        svg.add_start_g(id="silkscreen", transform=transform_translate)
         svg.add_path(d=(
                 svg.M(-chip_width/2 + offset, 0-0.5*pins_gap),
                 svg.v(pins_gap*count/2),
@@ -104,7 +103,7 @@ def create(p, file_name):
         svg.add_circle(-chip_width/2 + offset + 3,-0.25*pins_gap +1 ,1.5, fill="#ffffff")
         svg.add_end_g()
 
-        svg.add_start_g(id="copper1")
+        svg.add_start_g(id="copper1", transform=transform_translate)
         if not is_smd: svg.add_start_g(id="copper0")
         for i in range(count/2):
             #left
@@ -119,7 +118,6 @@ def create(p, file_name):
 
         if not is_smd: svg.add_end_g()
         svg.add_end_g()
-        svg.add_end_g()
     else:
         # 4 sides of pins
         
@@ -128,14 +126,13 @@ def create(p, file_name):
 
         svg.start(svg_width, svg_height, svg_width*127/360, svg_height*127/360, "mm")
         #svg.add_rect(-500,-500,1000,1000,fill="#cccccc") # debug
-        svg.add_start_g(transform="translate({x},{y})".format(x=chip_width/2+pin_height/2, y=chip_height/2+pin_height/2))
-
+        transform_translate = "translate({x},{y})".format(x=chip_width/2+pin_height/2, y=chip_height/2+pin_height/2)
         #svg.add_circle(0,0,1,fill="0000ff") # debug
         
         offset_h = (chip_height - (count/4-1)*pins_gap) / 2
         offset_v = (chip_width - (count/4-1)*pins_gap) / 2
 
-        svg.add_start_g(id="silkscreen")
+        svg.add_start_g(id="silkscreen", transform=transform_translate)
        
         svg.add_circle(-chip_width/2, -chip_height/2, pin_height/2, fill="#fff")
 
@@ -152,7 +149,7 @@ def create(p, file_name):
         svg.add_end_g()
 
 
-        svg.add_start_g(id="copper1")
+        svg.add_start_g(id="copper1", transform=transform_translate)
         if not is_smd: svg.add_start_g(id="copper0")
 
         def add_pin_shortcut(i,x,y,r=0):
@@ -193,7 +190,6 @@ def create(p, file_name):
                     r=90)
 
         if not is_smd: svg.add_end_g()
-        svg.add_end_g()
         svg.add_end_g()
 
     svg.end()
