@@ -69,11 +69,11 @@ view = """<views>
 copper_layer = """<layer layerId="copper{0}"/>"""
 
 connector = """
-        <connector id="connector{id}" name="{name}" type="{type}">
+        <connector id="connector{id}" name="{name}" type="male">
             <description>{description}</description>
             <views>
                 <breadboardView>
-                    <p layer="breadboard" svgId="connector{id}pin" terminalId="connector{id}terminal"/>
+                    <p layer="breadboard" svgId="connector{id}pin" legId="connector{id}terminal"/>
                 </breadboardView>
                 <schematicView>
                     <p layer="schematic" svgId="connector{id}pin" terminalId="connector{id}terminal"/>
@@ -133,7 +133,6 @@ def create(meta, package, schematic, breadboard_file_name, schematic_file_name, 
         copper_ps = "\n".join(copper_p.format(nr=j, id=i+1) for j in copper_layer_nums)
         append(connector.format(
             id = i+1,
-            type = "pad" if is_smd else "male",
             name=name,
             description=description,
             copper_ps = copper_ps))
