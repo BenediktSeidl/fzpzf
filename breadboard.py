@@ -84,7 +84,6 @@ def create(width, height, name, file_name=None):
             add_line(0,i*7.2,500,0, color="#4affff", width=0.5)
             add_line(i*7.2,0,0,500, color="#4affff", width=0.5)
     else:
-        scale = 1
         svg_width=outer_r-outer_l
         svg_height=(height-1)*7.2 + 2*1.08
         start(svg_width,svg_height, svg_width*127./360, svg_height*127./360, "mm")

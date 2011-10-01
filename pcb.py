@@ -89,7 +89,7 @@ def create(p, file_name):
 
         svg.start(svg_width, svg_height, svg_width*127/360, svg_height*127/360, "mm")
         #svg.add_rect(-500,-500,1000,1000) # debug
-        svg.add_start_g(transform="scale(1) translate({x},{y})".format(x=svg_width/2, y=0.5 + pins_gap * 0.5))
+        svg.add_start_g(transform="translate({x},{y})".format(x=svg_width/2, y=0.5 + pins_gap * 0.5))
         offset = pin_height/2 + 1.5
         svg.add_start_g(id="silkscreen")
         svg.add_path(d=(
