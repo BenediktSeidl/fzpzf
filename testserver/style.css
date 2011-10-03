@@ -1,0 +1,31 @@
+pre,html,body,legend {margin:0px; padding:0px;}
+body{background-color:#999; font-family: Georgia, serif; margin:10px;}
+.console{background-color:black; height:200px; overflow:auto; color:#00CC00; padding:4px;}
+fieldset{border:1px solid #eee; background-color:#ccc; margin:0px; border-radius:4px; margin:2px; margin-bottom:10px;}
+legend{background-color:#eee; border-radius:4px; padding:0 10px 0 10px;}
+
+#files, #files li {padding:0px; margin:0px; list-style-type:none;}
+
+#imagesize , #imagesize li{padding:0px; margin:0px; list-style-type:none;}
+#imagesize {clear:both; float:left; width:100%}
+#imagesize li {float:left;}
+#imagesize li a { margin-right:3px; color:#fff; background-color:black; text-decoration:none; padding:0 3px 0 3px;}
+#imagesize li a:hover { background-color:#666666; }
+
+#data_container {border:0px; margin:0px; padding:0px; overflow:auto; }
+#debug {width:100%; overflow:auto; height:100px;}
+
+.image, #text {display:none;}
+
+#files li a {
+    text-decoration:none;
+    color:black;
+    border-radius:4px;
+    border:1px solid #d8d8d8;
+    margin:1px;
+    background-color:#ddd;
+    display:block;
+    padding:1px;}
+#files li a:hover {background-color:#666;}
+
+.highlight{font-style:italic; background-color:black !important; color:white !important;}

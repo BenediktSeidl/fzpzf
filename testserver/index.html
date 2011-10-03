@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <script type="text/javascript" src="jquery-1.6.4.min.js"></script>
+        <script type="text/javascript" src="script.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <title>fzpzf</title>
+    </head>
+    <body>
+
+        <noscript>
+            <p>sorry, please activate javascript</p>
+        </noscript>
+
+        <div style="font-style:italic;font-size:20px;margin:10px; color:white">fzpzf</div>
+
+        <div style="float:left; clear:both; width:100%;" id="top">
+            <fieldset style="float:left;" id="fieldset_files">
+                <legend>files</legend>
+                <ul id="files" style="float:left;"></ul>
+            </fieldset>
+            <fieldset id="fieldset_data" style="float:right;">
+                <legend>data</legend>
+                <div id="data_container">
+                    <ul id="imagesize" class="image">
+                        <li><a href="#">-</a></li>
+                        <li><a href="#">0</a></li>
+                        <li><a href="#">+</a></li>
+                    </ul>
+                    <img id="image" class="image"/>
+                    <pre id="text"></pre>
+                </div>
+            </fieldset>
+        </div>
+
+        <div style="display:block; float:none; clear:both;">
+            <fieldset>
+                <legend>status</legend>
+                <div>last executed <span id="time"></span> seconds ago</div>
+                <div>return code: <span id="returncode"></span></div>
+            </fieldset>
+            <div style="float:left; width:50%;">
+                <fieldset>
+                    <legend>stdout</legend>
+                    <pre id="stdout" class="console">empty</pre>
+                </fieldset>
+            </div>
+            <div style="float:right; width:50%;">
+                <fieldset>
+                    <legend>stderr</legend>
+                    <pre id="stderr" class="console">empty</pre>
+                </fieldset>
+            </div>
+        </div>
+
+        <fieldset>
+            <legend>debug</legend>
+            <pre id="debug">asdasd</pre>
+        </fieldset>
+
+    </body>
+</html>
